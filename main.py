@@ -1,7 +1,7 @@
 from typing import List, Tuple
 import copy
-from local_driver import Alg3D, Board # ローカル検証用
-#from framework import Alg3D, Board # 本番用
+# from local_driver import Alg3D, Board # ローカル検証用
+from framework import Alg3D, Board # 本番用
 
 size = 4
 
@@ -92,8 +92,12 @@ class MyAI(Alg3D):
             # 相手が置いたときのシミュレート
 
             new_selfboard = self.simulate_move(board, move, player) #自分が置いたときの盤面
+            if check_win(self, board, player, move[0], move[1], move[2]):
+                return 
+
             new_opositboard = self.simulate_move(board, move, 3 - player) #相手が置いたときの盤面
-    
+
+
 
             
             score = self.evaluate_board(new_selfboard, player)
