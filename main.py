@@ -42,11 +42,11 @@ class MyAI(Alg3D):
 
             # ラインのタイプ判定
             if dz != 0 and dx == 0 and dy == 0:
-                line_type = 2
+                line_type = 2 #垂直
             elif dz == 0 and (dx != 0 or dy != 0):
-                line_type = 1
+                line_type = 1 #水平
             else:
-                line_type = 3
+                line_type = 3 #ななめ
 
             for i in range(len(line)-3):
                 segment = line[i:i+4]
@@ -94,7 +94,7 @@ class MyAI(Alg3D):
                 score += 300
             
             if zt == 1:
-                score += 1000
+                score += 2000
             elif zt == 2:
                 score += 500
             elif zt == 3:
