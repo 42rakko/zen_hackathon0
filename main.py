@@ -31,8 +31,19 @@ class MyAI(Alg3D):
         new_board[z][y][x] = player
         return new_board
 
-    # スコアリングして返す
-    def evaluate_board(self, board, player):
+    # 自分の盤面の場合スコアリングして返す
+    def self_evaluate_board(self, board, player):
+        # ここでは超簡単に：自分の石の数をスコアにする
+        score = 0
+        for z in range(size):
+            for y in range(size):
+                for x in range(size):
+                    if board[z][y][x] == player:
+                        score += 1
+        return score
+
+
+    def opponent_evaluate_board(self, board, player):
         # ここでは超簡単に：自分の石の数をスコアにする
         score = 0
         for z in range(size):
@@ -91,20 +102,21 @@ class MyAI(Alg3D):
             # まずは自分のパターン
             # 相手が置いたときのシミュレート
 
-            new_selfboard = self.simulate_move(board, move, player) #自分が置いたときの盤面
-            if check_win(self, board, player, move[0], move[1], move[2]):
-                return 
-
-            new_opositboard = self.simulate_move(board, move, 3 - player) #相手が置いたときの盤面
-
-
-
-            
-            score = self.evaluate_board(new_selfboard, player)
+            new_selfboard = self.simulate_move(board, move, player) #自分が置いたときの盤面0            
+            score_self = self.self_evaluate_board(self, new_selfboard, player)
+            if score_self >= 10000000:
+                return move
+            new_opponentboard = self.simulate_move(board, move, 3 - player) #相手が置いたときの盤面
+            score_opponent = self.opponent_evaluate_board(new_opponentboard, 3 - player)
+            if score_self > score_opponent:
+                score = score_self
+            else:
+                score = score_opponent
             if score > best_score:
                 best_score = score
                 best = move
         return best
+
         
     def find_valid_moves(self, board):
         moves = []
