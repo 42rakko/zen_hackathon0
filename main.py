@@ -78,8 +78,8 @@ class MyAI(Alg3D):
             return 200000000
         x, y, z = move
         lines = self.check_line_counts(board, player, 3 - player, move)
+        score = 0
         for line in lines:
-            score = 0
             zs, zo, zt = line
             if zo == 0:
                 score += 1000
@@ -91,7 +91,7 @@ class MyAI(Alg3D):
             elif zs >= 2:
                 score += 2000
             elif zs >= 1:
-                score += 300
+                score += 0
             
             if zt == 1:
                 score += 1000
