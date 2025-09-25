@@ -1,6 +1,6 @@
 from typing import List, Tuple
 import copy
-# from local_driver import Alg3D, Board # ローカル検証用
+#from local_driver import Alg3D, Board # ローカル検証用
 from framework import Alg3D, Board # 本番用
 
 size = 4
@@ -19,9 +19,6 @@ class MyAI(Alg3D):
         last_move: Tuple[int, int, int] # 直前に置かれた場所(x, y, z)
     ) -> Tuple[int, int]:
         # ここにアルゴリズムを書く
-        print(self.best_move(board, player))
-        # print(self.find_valid_moves(board))
-
         return self.best_move(board, player)
 
 
@@ -252,4 +249,4 @@ if __name__ == "__main__":
     last_move = (1, 1, 1)
     player = 1
     move = ai.get_move(dummy_board, player, last_move)
-    # print("AIが選んだ手:", move)
+    print("AIが選んだ手:", move)
