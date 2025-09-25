@@ -42,9 +42,9 @@ class MyAI(Alg3D):
 
             # ラインのタイプ判定
             if dz != 0 and dx == 0 and dy == 0:
-                line_type = 2
-            elif dz == 0 and (dx != 0 or dy != 0):
                 line_type = 1
+            elif dz == 0 and (dx != 0 or dy != 0):
+                line_type = 2
             else:
                 line_type = 3
 
