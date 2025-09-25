@@ -42,9 +42,9 @@ class MyAI(Alg3D):
 
             # ラインのタイプ判定
             if dz != 0 and dx == 0 and dy == 0:
-                line_type = 1
-            elif dz == 0 and (dx != 0 or dy != 0):
                 line_type = 2
+            elif dz == 0 and (dx != 0 or dy != 0):
+                line_type = 1
             else:
                 line_type = 3
 
@@ -89,15 +89,15 @@ class MyAI(Alg3D):
             if zs >= 3:
                 score += 1000
             elif zs >= 2:
-                score += 500
+                score += 2000
             elif zs >= 1:
                 score += 300
             
-            if zt >= 3:
+            if zt >= 1:
                 score += 1000
             elif zt >= 2:
                 score += 500
-            elif zt >= 1:
+            elif zt >= 3:
                 score += 100
 
             if x == 0 or x == 3:
