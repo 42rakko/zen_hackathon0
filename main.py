@@ -82,35 +82,34 @@ class MyAI(Alg3D):
         for line in lines:
             zs, zo, zt = line
             if zo == 0:
-                score += 1000
+                score += 100
             else:
-                score += 10
+                score += 1
 
             if zs >= 3:
-                score += 1000
+                score += 100
             elif zs >= 2:
-                score += 2000
+                score += 200
             elif zs >= 1:
                 score += 0
             
             if zt == 1:
-                score += 1000
-            elif zt == 2:
-                score += 500
-            elif zt == 3:
                 score += 100
+            elif zt == 2:
+                score += 50
+            elif zt == 3:
+                score += 10
 
             if x == 0 or x == 3:
-                score += 100
+                score += 10
             elif x == 1 or x == 2:
-                score += 300
+                score += 30
             if y == 0 or y == 3:
-                score += 100
+                score += 10
             elif y == 1 or y == 2:
-                score += 300
+                score += 30
 
-            if z == 0:
-                score += 1000
+            
 
 
 
@@ -127,32 +126,32 @@ class MyAI(Alg3D):
         for line in lines:
             zs, zo, zt = line
             if zo == 0:
-                score += 2000
+                score += 200
             else:
                 score += 20
 
             if zs >= 3:
-                score += 2000
+                score += 200
             elif zs >= 2:
-                score += 1000
+                score += 100
             elif zs >= 1:
-                score += 600
+                score += 60
             
             if zt >= 3:
-                score += 2000
-            elif zt >= 2:
-                score += 1000
-            elif zt >= 1:
                 score += 200
+            elif zt >= 2:
+                score += 100
+            elif zt >= 1:
+                score += 20
 
             if x == 0 or x == 3:
                 score += 20
             elif x == 1 or x == 2:
-                score += 2000
+                score += 200
             if y == 0 or y == 3:
                 score += 20
             elif y == 1 or y == 2:
-                score += 2000
+                score += 200
 
 
 
