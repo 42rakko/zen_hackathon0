@@ -1,7 +1,7 @@
 from typing import List, Tuple
 import copy
-# from local_driver import Alg3D, Board # ローカル検証用
-from framework import Alg3D, Board # 本番用
+from local_driver import Alg3D, Board # ローカル検証用
+# from framework import Alg3D, Board # 本番用
 
 size = 4
 
@@ -45,11 +45,11 @@ class MyAI(Alg3D):
 
             # ラインのタイプ判定
             if dz != 0 and dx == 0 and dy == 0:
-                line_type = "vertical"
+                line_type = 2
             elif dz == 0 and (dx != 0 or dy != 0):
-                line_type = "horizontal"
+                line_type = 1
             else:
-                line_type = "diagonal"
+                line_type = 3
 
             for i in range(len(line)-3):
                 segment = line[i:i+4]
@@ -78,40 +78,84 @@ class MyAI(Alg3D):
     def self_evaluate_board(self, board, player, move):
         #そこに置いたら勝てる→あがり
         if self.check_board_win(board, player):
-            return 100000000
+            return 200000000
         x, y, z = move
         score = 0
         lines = self.check_line_counts(board, player, 3 - player, move)
         for line in lines:
             zs, zo, zt = line
-            if zs >= 2:
+            if zo == 0:
                 score += 1000
+            else:
+                score += 10
+
+            if zs >= 3:
+                score += 1000
+            elif zs >= 2:
+                score += 500
             elif zs >= 1:
-                socre += 500
+                score += 300
             
+            if zt >= 3:
+                score += 1000
+            elif zt >= 2:
+                score += 500
+            elif zt >= 1:
+                score += 100
+
+            if x == 0 or x == 3:
+                score += 10
+            elif x == 1 or x == 2:
+                score += 1000
+            if y == 0 or y == 3:
+                score += 10
+            elif y == 1 or y == 2:
+                score += 1000
 
 
 
-
-        for z in range(size):
-            for y in range(size):
-                for x in range(size):
-                    if board[z][y][x] == player:
-                        score += 1
         return score
 
 
     def opponent_evaluate_board(self, board, player, move):
         #そこに置かれたらまける→絶対
         if self.check_board_win(board, player):
-            return 10000000
+            return 100000000
         x, y, z = move
         score = 0
-        for z in range(size):
-            for y in range(size):
-                for x in range(size):
-                    if board[z][y][x] == player:
-                        score += 1
+        lines = self.check_line_counts(board, player, 3 - player, move)
+        for line in lines:
+            zs, zo, zt = line
+            if zo == 0:
+                score += 2000
+            else:
+                score += 20
+
+            if zs >= 3:
+                score += 2000
+            elif zs >= 2:
+                score += 1000
+            elif zs >= 1:
+                score += 600
+            
+            if zt >= 3:
+                score += 2000
+            elif zt >= 2:
+                score += 1000
+            elif zt >= 1:
+                score += 200
+
+            if x == 0 or x == 3:
+                score += 20
+            elif x == 1 or x == 2:
+                score += 2000
+            if y == 0 or y == 3:
+                score += 20
+            elif y == 1 or y == 2:
+                score += 2000
+
+
+
         return score
     
 
@@ -146,17 +190,17 @@ class MyAI(Alg3D):
         best = None
         for move in moves:
             # 考えるべきこと　
-            #    そこに置けば勝ち 100000000
+            #    そこに置けば勝ち 200000000
             
-            #　まずは、相手の上がりを阻止する手　最優先 10000000
-            #　  危ない手は、あと一手で上がりになる手　→　相手が置いたら４つ揃ってる 100000
-            #    次に危ない手は、あと一手で２以上のリーチになる手　→　相手がそこに置いたら２以上のリーチ →　置いたあとの盤面からさらにおける場所を探索する→あとで 10000
+            #　まずは、相手の上がりを阻止する手　最優先 100000000
+            #　  危ない手は、あと一手で上がりになる手　→　相手が置いたら４つ揃ってる 5000000
+            #    次に危ない手は、あと一手で２以上のリーチになる手　→　相手がそこに置いたら２以上のリーチ →　置いたあとの盤面からさらにおける場所を探索する→あとで 400000
         
             #　次に、自分の上がりを作る手
-            #    禁じ手は自分がそこに置くと相手が上がりになる手　→これはどうチェックする？２手目までやるしか 5000
-            #    禁じ手２は自分がそこに置くと相手が次の一手で２以上のリーチになる手　→３手目まで 4000
+            #    禁じ手は自分がそこに置くと相手が上がりになる手　→これはどうチェックする？２手目までやるしか 200000
+            #    禁じ手２は自分がそこに置くと相手が次の一手で２以上のリーチになる手　→３手目まで 100000
 
-            #  クロスを取る→勝利 ４隅のまんなかどこかを取る→その対角→その対面→その対面 3000
+            #  クロスを取る→勝利 ４隅のまんなかどこかを取る→その対角→その対面→その対面 
             #  つながるところを取る 2000
             #  中を取る 100
             #  角の隣を取る 10
@@ -167,11 +211,11 @@ class MyAI(Alg3D):
             # 相手が置いたときのシミュレート
 
             new_selfboard = self.simulate_move(board, move, player) #自分が置いたときの盤面0            
-            score_self = self.self_evaluate_board(self, new_selfboard, player)
-            if score_self >= 10000000:
+            score_self = self.self_evaluate_board(new_selfboard, player, move)
+            if score_self >= 1500000000:
                 return move
             new_opponentboard = self.simulate_move(board, move, 3 - player) #相手が置いたときの盤面
-            score_opponent = self.opponent_evaluate_board(new_opponentboard, 3 - player)
+            score_opponent = self.opponent_evaluate_board(new_opponentboard, 3 - player, move)
             if score_self > score_opponent:
                 score = score_self
             else:
