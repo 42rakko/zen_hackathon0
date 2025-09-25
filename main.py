@@ -93,11 +93,11 @@ class MyAI(Alg3D):
             elif zs >= 1:
                 score += 300
             
-            if zt >= 1:
+            if zt == 1:
                 score += 1000
-            elif zt >= 2:
+            elif zt == 2:
                 score += 500
-            elif zt >= 3:
+            elif zt == 3:
                 score += 100
 
             if x == 0 or x == 3:
