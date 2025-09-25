@@ -210,7 +210,8 @@ class MyAI(Alg3D):
             new_selfboard = self.simulate_move(board, move, player) #自分が置いたときの盤面0            
             score_self = self.self_evaluate_board(new_selfboard, player, move)
             if score_self >= 1500000000:
-                return move
+                x, y, z = move
+                return (x, y)
             new_opponentboard = self.simulate_move(board, move, 3 - player) #相手が置いたときの盤面
             score_opponent = self.opponent_evaluate_board(new_opponentboard, 3 - player, move)
             if score_self > score_opponent:
@@ -220,7 +221,8 @@ class MyAI(Alg3D):
             if score > best_score:
                 best_score = score
                 best = move
-        return best
+        x, y, z = best
+        return (x, y)
 
         
     def find_valid_moves(self, board):
