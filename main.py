@@ -25,6 +25,49 @@ class MyAI(Alg3D):
         return self.best_move(board, player)
 
 
+
+    # player: 自分
+    # opponent: 相手
+    # move: (x, y, z)
+    # 戻り値: そのラインに自分と相手が何個あるか (my_count, opp_count)
+    #         4個並べられるラインが存在しないなら (-1, -1)
+    def check_line_counts(self, board, player, opponent, move):
+        x, y, z = move
+        results = []
+
+        for dx, dy, dz in DIRECTIONS:
+            line = [(x + dx*i, y + dy*i, z + dz*i) for i in range(-3, 4)]
+            line = [(nx, ny, nz) for nx, ny, nz in line
+                    if 0 <= nx < size and 0 <= ny < size and 0 <= nz < size]
+
+            if len(line) < 4:
+                continue
+
+            # ラインのタイプ判定
+            if dz != 0 and dx == 0 and dy == 0:
+                line_type = "vertical"
+            elif dz == 0 and (dx != 0 or dy != 0):
+                line_type = "horizontal"
+            else:
+                line_type = "diagonal"
+
+            for i in range(len(line)-3):
+                segment = line[i:i+4]
+                if (x, y, z) not in segment:
+                    continue
+
+                my_count = sum(1 for (nx, ny, nz) in segment if board[nz][ny][nx] == player)
+                opp_count = sum(1 for (nx, ny, nz) in segment if board[nz][ny][nx] == opponent)
+
+                results.append((my_count, opp_count, line_type))
+
+        if not results:
+            return [(-1, -1, 0)]
+        return results
+
+
+
+
     def simulate_move(self, board, move, player):
         x, y, z = move
         new_board = copy.deepcopy(board)
@@ -32,9 +75,24 @@ class MyAI(Alg3D):
         return new_board
 
     # 自分の盤面の場合スコアリングして返す
-    def self_evaluate_board(self, board, player):
-        # ここでは超簡単に：自分の石の数をスコアにする
+    def self_evaluate_board(self, board, player, move):
+        #そこに置いたら勝てる→あがり
+        if self.check_board_win(board, player):
+            return 100000000
+        x, y, z = move
         score = 0
+        lines = self.check_line_counts(board, player, 3 - player, move)
+        for line in lines:
+            zs, zo, zt = line
+            if zs >= 2:
+                score += 1000
+            elif zs >= 1:
+                socre += 500
+            
+
+
+
+
         for z in range(size):
             for y in range(size):
                 for x in range(size):
@@ -43,8 +101,11 @@ class MyAI(Alg3D):
         return score
 
 
-    def opponent_evaluate_board(self, board, player):
-        # ここでは超簡単に：自分の石の数をスコアにする
+    def opponent_evaluate_board(self, board, player, move):
+        #そこに置かれたらまける→絶対
+        if self.check_board_win(board, player):
+            return 10000000
+        x, y, z = move
         score = 0
         for z in range(size):
             for y in range(size):
@@ -56,29 +117,27 @@ class MyAI(Alg3D):
 
 
     #勝利判定
-    def check_win(self, board, player, x, y, z):
-        for dx, dy, dz in DIRECTIONS:
-            count = 1  # 置いた石を含む
-            # 正方向にチェック
-            nx, ny, nz = x+dx, y+dy, z+dz
-            while 0 <= nx < size and 0 <= ny < size and 0 <= nz < size and board[nz][ny][nx] == player:
-                count += 1
-                nx += dx; ny += dy; nz += dz
-            # 逆方向にチェック
-            nx, ny, nz = x-dx, y-dy, z-dz
-            while 0 <= nx < size and 0 <= ny < size and 0 <= nz < size and board[nz][ny][nx] == player:
-                count += 1
-                nx -= dx; ny -= dy; nz -= dz
-            if count >= 4:
-                return True
-        return False
-    
-    def block_move(self, board, player):
-        block = None
-
-
-        return 
-    
+    def check_board_win(self, board, player):
+        for z in range(size):
+            for y in range(size):
+                for x in range(size):
+                    if board[z][y][x] != player:
+                        continue
+                    for dx, dy, dz in DIRECTIONS:
+                        count = 1
+                        nx, ny, nz = x+dx, y+dy, z+dz
+                        while (
+                            0 <= nx < size and
+                            0 <= ny < size and
+                            0 <= nz < size and
+                            board[nz][ny][nx] == player
+                        ):
+                            count += 1
+                            nx += dx; ny += dy; nz += dz
+                        if count >= 4:
+                            return True
+        return False    
+        
 
     
     def best_move(self, board, player):
@@ -87,17 +146,22 @@ class MyAI(Alg3D):
         best = None
         for move in moves:
             # 考えるべきこと　
-            #    そこに置けば勝ち
+            #    そこに置けば勝ち 100000000
             
-            #　まずは、相手の上がりを阻止する手　最優先
-            #　  危ない手は、あと一手で上がりになる手　→　相手が置いたら４つ揃ってる 
-            #    次に危ない手は、あと一手で２以上のリーチになる手　→　相手がそこに置いたら２以上のリーチ →　置いたあとの盤面からさらにおける場所を探索する→あとで
+            #　まずは、相手の上がりを阻止する手　最優先 10000000
+            #　  危ない手は、あと一手で上がりになる手　→　相手が置いたら４つ揃ってる 100000
+            #    次に危ない手は、あと一手で２以上のリーチになる手　→　相手がそこに置いたら２以上のリーチ →　置いたあとの盤面からさらにおける場所を探索する→あとで 10000
+        
             #　次に、自分の上がりを作る手
-            #    禁じ手は自分がそこに置くと相手が上がりになる手
-            #    禁じ手２は自分がそこに置くと相手が次の一手で２以上のリーチになる手
-            #    クロスを取る→勝利
-            #    角の隣を取る
-            #    もうない　４隅のまんなかどこかを取る→その対角→その対面→その対面
+            #    禁じ手は自分がそこに置くと相手が上がりになる手　→これはどうチェックする？２手目までやるしか 5000
+            #    禁じ手２は自分がそこに置くと相手が次の一手で２以上のリーチになる手　→３手目まで 4000
+
+            #  クロスを取る→勝利 ４隅のまんなかどこかを取る→その対角→その対面→その対面 3000
+            #  つながるところを取る 2000
+            #  中を取る 100
+            #  角の隣を取る 10
+            #  角を取る 1
+        
 
             # まずは自分のパターン
             # 相手が置いたときのシミュレート
@@ -128,9 +192,6 @@ class MyAI(Alg3D):
                         moves.append((x, y, z))
                         break  # その(x, y)には一番下の空きだけが有効
         return moves
-
-
-
 
 def create_board() -> Board:
     return [[[0 for _ in range(4)] for _ in range(4)] for _ in range(4)]
