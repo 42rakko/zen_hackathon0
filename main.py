@@ -122,11 +122,16 @@ class MyAI(Alg3D):
             elif z == 1:
                 score += 50 * flag
 
-            # if round < 2:
-            # #同じ人がもう一手おいたとき
-            #     new_selfboard = self.simulate_move(board, move, player) #相手が置いたときの盤面
-            #     score_self = self.evaluate_board(new_opponentboard, player, move, 1, round + 1)
-                
+            if round < 2:
+            #同じ人がもう一手おいたとき
+                new_selfboard = self.simulate_move(board, move, player) #相手が置いたときの盤面
+                score_self = self.evaluate_board(new_opponentboard, player, move, 2, round + 1)
+                new_opponentboard = self.simulate_move(board, move, 3 - player) #相手が置いたときの盤面
+                score_opponent = self.evaluate_board(new_opponentboard, 3 - player, move, 3, round + 1)
+                if score_self > score_opponent:
+                    score += score_self
+                else:
+                    score += score_opponent
 
 
                 
