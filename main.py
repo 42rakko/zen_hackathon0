@@ -74,7 +74,7 @@ class MyAI(Alg3D):
     # 自分の盤面の場合スコアリングして返す
     def evaluate_board(self, board, player, move, flag, round, oppflag):
         #そこに置いたら勝てる→あがり
-        if self.check_board_win(board, player) and round == 0:
+        if self.check_board_win(board, player) and (round == 0 or oppflag == 1):
             return 200000000
         x, y, z = move
         lines = self.check_line_counts(board, player, 3 - player, move)
