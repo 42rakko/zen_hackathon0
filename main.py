@@ -84,7 +84,7 @@ class MyAI(Alg3D):
             if zo == 0:
                 score += 100
             else:
-                score += 1
+                score += -100
 
             if zs >= 3:
                 score += 100
