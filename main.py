@@ -72,9 +72,9 @@ class MyAI(Alg3D):
         return new_board
 
     # 自分の盤面の場合スコアリングして返す
-    def evaluate_board(self, board, player, move, flag, round, oppflag):
+    def evaluate_board(self, board, player, move, flag, round):
         #そこに置いたら勝てる→あがり
-        if self.check_board_win(board, player) and (round == 0 or oppflag == 1):
+        if self.check_board_win(board, player) and round == 0:
             return 200000000
         x, y, z = move
         lines = self.check_line_counts(board, player, 3 - player, move)
@@ -131,12 +131,9 @@ class MyAI(Alg3D):
                 best = None
                 for nextmove in nextmoves:
                     new_selfboard = self.simulate_move(board, nextmove, player) #相手が置いたときの盤面
-                    score_self = self.evaluate_board(new_selfboard, player, nextmove, 0.5, round + 1, 0,oppflag)
-                    score_opponent = -100000
-                    if oppflag == 0:
-                        new_opponentboard = self.simulate_move(board, nextmove, 3 - player) #相手が置いたときの盤面
-                        score_opponent = self.evaluate_board(new_opponentboard, 3 - player, nextmove, 0.5, round + 1, 1, 1 - oppflag)
-                    
+                    score_self = self.evaluate_board(new_selfboard, player, nextmove, 0.5, round + 1)
+                    new_opponentboard = self.simulate_move(board, nextmove, 3 - player) #相手が置いたときの盤面
+                    score_opponent = self.evaluate_board(new_opponentboard, 3 - player, nextmove, 0.5, round + 1)
                     if score_self > best_score:
                         best_score = score_self
                     if score_opponent > best_score:
