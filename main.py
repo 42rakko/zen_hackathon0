@@ -78,13 +78,18 @@ class MyAI(Alg3D):
             return 200000000
         
 
-        if round == 0 and oppflag == 0:
-            opponent_moves = self.find_valid_moves(board)
-            for opp_move in opponent_moves:
-                opp_board = self.simulate_move(board, opp_move, 3 - player)
-                if self.check_board_win(opp_board, 3 - player):
-                    return -99999999  # 即負けの手
-
+        #もう一手読んで、そこに置いたら相手が上がる手は避ける
+        if round < 1 and oppflag == 0:
+            nextmoves = self.find_valid_moves(board)
+            best_score = -9999
+            best = None
+            for nextmove in nextmoves:
+                if round == 0 and oppflag == 0:
+                    opponent_moves = self.find_valid_moves(board)
+                    for opp_move in opponent_moves:
+                        opp_board = self.simulate_move(board, opp_move, 3 - player)
+                        if self.check_board_win(opp_board, 3 - player):
+                            return -99999999  # 即負け           
         
 
         #     if score_self > best_score:
