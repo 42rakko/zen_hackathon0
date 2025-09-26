@@ -102,11 +102,11 @@ class MyAI(Alg3D):
                 score += 10 * flag
 
             if x == 0 or x == 3:
-                score += 10 * flag
+                score += 150 * flag
             elif x == 1 or x == 2:
                 score += 210 * flag
             if y == 0 or y == 3:
-                score += 10 * flag
+                score += 150 * flag
             elif y == 1 or y == 2:
                 score += 210 * flag
 
