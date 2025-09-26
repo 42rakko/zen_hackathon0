@@ -126,34 +126,34 @@ class MyAI(Alg3D):
         lines = self.check_line_counts(board, player, 3 - player, move)
         for line in lines:
             zs, zo, zt = line
-            if zo == 0:
-                score += 100
-            else:
-                score += -1000
+            # if zo == 0:
+            #     score += 100
+            # else:
+            #     score += -1000
 
-            if zs >= 3:
-                score += 100
-            elif zs >= 2:
-                score += 200
-            elif zs >= 1:
-                score += 0
+            # if zs >= 3:
+            #     score += 100
+            # elif zs >= 2:
+            #     score += 200
+            # elif zs >= 1:
+            #     score += 0
             
-            #列の向き
-            if zt == 1:
-                score += 300
-            elif zt == 2:
-                score += 50
-            elif zt == 3:
-                score += 10
+            # #列の向き
+            # if zt == 1:
+            #     score += 300
+            # elif zt == 2:
+            #     score += 50
+            # elif zt == 3:
+            #     score += 10
 
-            if x == 0 or x == 3:
-                score += 30
-            elif x == 1 or x == 2:
-                score += 100
-            if y == 0 or y == 3:
-                score += 100
-            elif y == 1 or y == 2:
-                score += 30
+            # if x == 0 or x == 3:
+            #     score += 30
+            # elif x == 1 or x == 2:
+            #     score += 100
+            # if y == 0 or y == 3:
+            #     score += 100
+            # elif y == 1 or y == 2:
+            #     score += 30
 
 
 
