@@ -83,7 +83,7 @@ class MyAI(Alg3D):
         #ダブルリーチ検出
         reach_count = sum(1 for (my, opp, lt) in lines if my == 3 and opp == 0)
         if reach_count >= 2:
-            score += 40000000 * flag # ダブルリーチ
+            score += 30000000 * flag # ダブルリーチ
 
         for line in lines:
             zs, zo, zt = line
@@ -94,7 +94,7 @@ class MyAI(Alg3D):
                 score += -300 * flag
 
             if zs == 3:
-                score += 50 * flag
+                score += 30 * flag
             elif zs == 2:
                 score += 90 * flag
             elif zs == 1:
@@ -109,11 +109,11 @@ class MyAI(Alg3D):
                 score += 10 * flag
 
             if x == 0 or x == 3:
-                score += 150 * flag
+                score += 120 * flag
             elif x == 1 or x == 2:
                 score += 210 * flag
             if y == 0 or y == 3:
-                score += 150 * flag
+                score += 120 * flag
             elif y == 1 or y == 2:
                 score += 210 * flag
 
@@ -122,13 +122,12 @@ class MyAI(Alg3D):
             elif z == 1:
                 score += 50 * flag
 
+            #もう一手読む
             if round < 1:
-
                 nextmoves = self.find_valid_moves(board)
                 best_score = -9999
                 best = None
                 for nextmove in nextmoves:
-                #同じ人がもう一手おいたとき
                     new_selfboard = self.simulate_move(board, nextmove, player) #相手が置いたときの盤面
                     score_self = self.evaluate_board(new_selfboard, player, nextmove, 2, round + 1)
                     new_opponentboard = self.simulate_move(board, nextmove, 3 - player) #相手が置いたときの盤面
