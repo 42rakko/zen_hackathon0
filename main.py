@@ -86,11 +86,11 @@ class MyAI(Alg3D):
             else:
                 score += -1000
 
-            if zs >= 3:
-                score += 300
-            elif zs >= 2:
-                score += 200
-            elif zs >= 1:
+            if zs == 3:
+                score += 500
+            elif zs == 2:
+                score += 100
+            elif zs == 1:
                 score += 0
             
             #列の向き
