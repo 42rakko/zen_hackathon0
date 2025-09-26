@@ -84,7 +84,7 @@ class MyAI(Alg3D):
             if zo == 0:
                 score += 100
             else:
-                score += -100
+                score += -1000
 
             if zs >= 3:
                 score += 100
@@ -127,32 +127,33 @@ class MyAI(Alg3D):
         for line in lines:
             zs, zo, zt = line
             if zo == 0:
-                score += 200
+                score += 100
             else:
-                score += 20
+                score += -1000
 
             if zs >= 3:
-                score += 200
+                score += 100
             elif zs >= 2:
-                score += 100
-            elif zs >= 1:
-                score += 60
-            
-            if zt >= 3:
                 score += 200
-            elif zt >= 2:
-                score += 100
-            elif zt >= 1:
-                score += 20
+            elif zs >= 1:
+                score += 0
+            
+            #列の向き
+            if zt == 1:
+                score += 300
+            elif zt == 2:
+                score += 50
+            elif zt == 3:
+                score += 10
 
             if x == 0 or x == 3:
-                score += 20
+                score += 30
             elif x == 1 or x == 2:
-                score += 200
+                score += 100
             if y == 0 or y == 3:
-                score += 20
+                score += 100
             elif y == 1 or y == 2:
-                score += 200
+                score += 30
 
 
 
