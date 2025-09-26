@@ -111,11 +111,11 @@ class MyAI(Alg3D):
             if (x == 0 or x == 3) and (y == 0 or y == 3):
                 score -= 3000 * flag
             elif x == 0 or x == 3:
-                score += 310 * flag
+                score += 510 * flag
             elif x == 1 or x == 2:
                 score += 30 * flag
             if y == 0 or y == 3:
-                score += 310 * flag
+                score += 510 * flag
             elif y == 1 or y == 2:
                 score += 30 * flag
 
