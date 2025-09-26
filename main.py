@@ -1,7 +1,7 @@
 from typing import List, Tuple
 import copy
-#from local_driver import Alg3D, Board # ローカル検証用
-from framework import Alg3D, Board # 本番用
+from local_driver import Alg3D, Board # ローカル検証用
+# from framework import Alg3D, Board # 本番用
 
 size = 4
 
@@ -122,16 +122,22 @@ class MyAI(Alg3D):
             elif z == 1:
                 score += 50 * flag
 
-            if round < 2:
-            #同じ人がもう一手おいたとき
-                new_selfboard = self.simulate_move(board, move, player) #相手が置いたときの盤面
-                score_self = self.evaluate_board(new_opponentboard, player, move, 2, round + 1)
-                new_opponentboard = self.simulate_move(board, move, 3 - player) #相手が置いたときの盤面
-                score_opponent = self.evaluate_board(new_opponentboard, 3 - player, move, 3, round + 1)
-                if score_self > score_opponent:
-                    score += score_self
-                else:
-                    score += score_opponent
+            if round < 1:
+
+                nextmoves = self.find_valid_moves(board)
+                best_score = -9999
+                best = None
+                for nextmove in nextmoves:
+                #同じ人がもう一手おいたとき
+                    new_selfboard = self.simulate_move(board, nextmove, player) #相手が置いたときの盤面
+                    score_self = self.evaluate_board(new_selfboard, player, nextmove, 2, round + 1)
+                    new_opponentboard = self.simulate_move(board, nextmove, 3 - player) #相手が置いたときの盤面
+                    score_opponent = self.evaluate_board(new_opponentboard, 3 - player, nextmove, 3, round + 1)
+                    if score_self > best_score:
+                        best_score = score_self
+                    if score_opponent > best_score:
+                        best_score = score_opponent
+                    score += best_score
 
 
                 
