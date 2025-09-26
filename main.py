@@ -110,6 +110,10 @@ class MyAI(Alg3D):
             elif y == 1 or y == 2:
                 score += 100
 
+            if z == 0:
+                score += 100
+            elif z == 1:
+                score += 50
             
 
 
