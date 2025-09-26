@@ -85,7 +85,7 @@ class MyAI(Alg3D):
                 for opp_move in opponent_moves:
                     opp_board = self.simulate_move(board, opp_move, 3 - player)
                     if self.check_board_win(opp_board, 3 - player):
-                        return -99999999  # 即負け           
+                        return -999999990  # 即負け           
     
 
         #     if score_self > best_score:
