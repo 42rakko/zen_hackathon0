@@ -94,7 +94,7 @@ class MyAI(Alg3D):
                 score -= 2000 * flag
 
             if zs == 3 and flag == 1:
-                score -= 20000 * flag                
+                score -= 200000 * flag           
             elif zs == 2:
                 score += 500 * flag
             elif zs == 1:
