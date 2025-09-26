@@ -72,7 +72,7 @@ class MyAI(Alg3D):
         return new_board
 
     # 自分の盤面の場合スコアリングして返す
-    def evaluate_board(self, board, player, move, flag, round):
+    def evaluate_board(self, board, player, move, flag, round, oppflag):
         #そこに置いたら勝てる→あがり
         if self.check_board_win(board, player) and round == 0:
             return 200000000
@@ -240,13 +240,13 @@ class MyAI(Alg3D):
             # 相手が置いたときのシミュレート
 
             new_selfboard = self.simulate_move(board, move, player) #自分が置いたときの盤面0            
-            score_self = self.evaluate_board(new_selfboard, player, move, 1, 0)
+            score_self = self.evaluate_board(new_selfboard, player, move, 1, 0, 0)
             if score_self >= 150000000:
                 x, y, z = move
                 return (x, y)
             new_opponentboard = self.simulate_move(board, move, 3 - player) #相手が置いたときの盤面
-            score_opponent = self.evaluate_board(new_opponentboard, 3 - player, move, 1, 0)
-            if score_self >= 150000000:
+            score_opponent = self.evaluate_board(new_opponentboard, 3 - player, move, 1, 0, 1)
+            if score_opponent >= 150000000:
                 x, y, z = move
                 return (x, y)            
             if score_self > score_opponent:
