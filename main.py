@@ -102,7 +102,7 @@ class MyAI(Alg3D):
             
             #列の向き
             if zt == 1:
-                score += 400 * flag
+                score += 500 * flag
             elif zt == 2:
                 score += 20 * flag
             elif zt == 3:
@@ -120,7 +120,7 @@ class MyAI(Alg3D):
                 score += 30 * flag
 
             if z == 0:
-                score += 150  * flag
+                score += 250  * flag
             elif z == 1:
                 score += 50 * flag
 
