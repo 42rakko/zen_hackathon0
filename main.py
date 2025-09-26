@@ -82,7 +82,7 @@ class MyAI(Alg3D):
 
         #ダブルリーチ検出
         reach_count = sum(1 for (my, opp, lt) in lines if my == 3 and opp == 0)
-        if reach_count >= 2:
+        if reach_count >= 2 and round == 0:
             return 40000000 * flag # ダブルリーチ
 
         for line in lines:
