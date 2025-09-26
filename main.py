@@ -120,7 +120,7 @@ class MyAI(Alg3D):
                 score += 30 * flag
 
             if z == 0:
-                score += 150 * flag
+                score += 150  * flag
             elif z == 1:
                 score += 50 * flag
 
