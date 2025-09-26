@@ -96,7 +96,7 @@ class MyAI(Alg3D):
             if zs == 3 and round == 0:
                 score -= 2000000           
             elif zs == 2:
-                score += 1000 * flag
+                score += 2000 * flag
             elif zs == 1:
                 score += 100 * flag
             
