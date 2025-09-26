@@ -72,15 +72,22 @@ class MyAI(Alg3D):
         return new_board
 
     # 自分の盤面の場合スコアリングして返す
-    def evaluate_board(self, board, player, move, flag):
+    def evaluate_board(self, board, player, move, flag, round):
         #そこに置いたら勝てる→あがり
         if self.check_board_win(board, player):
             return 200000000
         x, y, z = move
         lines = self.check_line_counts(board, player, 3 - player, move)
         score = 0
+
+        reach_count = sum(1 for (my, opp, lt) in lines if my == 3 and opp == 0)
+        if reach_count >= 2:
+            score += 40000000 * flag # ダブルリーチ
+
         for line in lines:
             zs, zo, zt = line
+
+
             if zo == 0:
                 score += 100 * flag
             else:
@@ -114,10 +121,15 @@ class MyAI(Alg3D):
                 score += 100 * flag
             elif z == 1:
                 score += 50 * flag
-            
+
+            # if round < 2:
+            # #同じ人がもう一手おいたとき
+            #     new_selfboard = self.simulate_move(board, move, player) #相手が置いたときの盤面
+            #     score_self = self.evaluate_board(new_opponentboard, player, move, 1, round + 1)
+                
 
 
-
+                
         return score
 
 
@@ -216,12 +228,12 @@ class MyAI(Alg3D):
             # 相手が置いたときのシミュレート
 
             new_selfboard = self.simulate_move(board, move, player) #自分が置いたときの盤面0            
-            score_self = self.evaluate_board(new_selfboard, player, move, 1)
+            score_self = self.evaluate_board(new_selfboard, player, move, 1, 0)
             if score_self >= 1500000000:
                 x, y, z = move
                 return (x, y)
             new_opponentboard = self.simulate_move(board, move, 3 - player) #相手が置いたときの盤面
-            score_opponent = self.evaluate_board(new_opponentboard, 3 - player, move, 1)
+            score_opponent = self.evaluate_board(new_opponentboard, 3 - player, move, 1, 0)
             if score_self > score_opponent:
                 score = score_self
             else:
