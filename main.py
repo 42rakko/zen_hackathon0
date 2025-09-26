@@ -73,30 +73,27 @@ class MyAI(Alg3D):
 
     # 自分の盤面の場合スコアリングして返す
     def evaluate_board(self, board, player, move, flag, round, oppflag):
+         # 自分が置いた盤面をシミュレート
+        new_board = self.simulate_move(board, move, player)
+
         #そこに置いたら勝てる→あがり
         if self.check_board_win(board, player) and (round == 0 or oppflag == 1):
             return 200000000
         
 
-        #もう一手読んで、そこに置いたら相手が上がる手は避ける
-        if round < 1 and oppflag == 0:
-            nextmoves = self.find_valid_moves(board)
-            best_score = -9999
-            best = None
-            for nextmove in nextmoves:
-                if round == 0 and oppflag == 0:
-                    opponent_moves = self.find_valid_moves(board)
-                    for opp_move in opponent_moves:
-                        opp_board = self.simulate_move(board, opp_move, 3 - player)
-                        if self.check_board_win(opp_board, 3 - player):
-                            return -99999999  # 即負け           
-        
+        # もう一手読んで、そこに置いたら相手が即勝ちする手は避ける
+        if round == 0 and oppflag == 0:
+            opponent_moves = self.find_valid_moves(new_board)
+            for opp_move in opponent_moves:
+                opp_board = self.simulate_move(new_board, opp_move, 3 - player)
+                if self.check_board_win(opp_board, 3 - player):
+                    return -99999999  # 即負けの手
 
-        #     if score_self > best_score:
-        #         best_score = score_self
-        #     if score_opponent > best_score:
-        #         best_score = score_opponent
-        # score += best_score
+            #     if score_self > best_score:
+            #         best_score = score_self
+            #     if score_opponent > best_score:
+            #         best_score = score_opponent
+            # score += best_score
 
 
         x, y, z = move
