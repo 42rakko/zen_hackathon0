@@ -83,7 +83,7 @@ class MyAI(Alg3D):
         #ダブルリーチ検出
         reach_count = sum(1 for (my, opp, lt) in lines if my == 3 and opp == 0)
         if reach_count >= 2:
-            score += 30000000 * flag # ダブルリーチ
+            score += 3000000 * flag # ダブルリーチ
 
         for line in lines:
             zs, zo, zt = line
@@ -96,9 +96,9 @@ class MyAI(Alg3D):
             if zs == 3:
                 score += 1 * flag
             elif zs == 4:
-                score += 100000000 * flag
+                score += 10000000 * flag
             elif zs == 2:
-                score += 90 * flag
+                score += 200 * flag
             elif zs == 1:
                 score += 1 * flag
             
@@ -110,12 +110,14 @@ class MyAI(Alg3D):
             elif zt == 3:
                 score += 10 * flag
 
-            if x == 0 or x == 3:
-                score += 20 * flag
+            if (x == 0 or x == 3) and (y == 0 or y == 3):
+                score += -300 * flag
+            elif x == 0 or x == 3:
+                score += 90 * flag
             elif x == 1 or x == 2:
                 score += 210 * flag
             if y == 0 or y == 3:
-                score += 20 * flag
+                score += 90 * flag
             elif y == 1 or y == 2:
                 score += 210 * flag
 
