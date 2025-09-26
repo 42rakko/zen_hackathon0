@@ -91,7 +91,7 @@ class MyAI(Alg3D):
             elif zs == 2:
                 score += 100
             elif zs == 1:
-                score += 300
+                score += 200
             
             #列の向き
             if zt == 1:
@@ -104,11 +104,11 @@ class MyAI(Alg3D):
             if x == 0 or x == 3:
                 score += 10
             elif x == 1 or x == 2:
-                score += 200
+                score += 100
             if y == 0 or y == 3:
                 score += 10
             elif y == 1 or y == 2:
-                score += 200
+                score += 100
 
             if z == 0:
                 score += 100
