@@ -134,11 +134,15 @@ class MyAI(Alg3D):
                     score_self = self.evaluate_board(new_selfboard, player, nextmove, 0.5, round + 1, oppflag)
                     new_opponentboard = self.simulate_move(board, nextmove, 3 - player) #相手が置いたときの盤面
                     score_opponent = self.evaluate_board(new_opponentboard, 3 - player, nextmove, 0.5, round + 1, 1 - oppflag)
+                    
                     if score_self > best_score:
                         best_score = score_self
                     if score_opponent > best_score:
                         best_score = score_opponent
+                    if best_score >= 150000000:
+                        return best_score
                 score += best_score
+                
 
 
                 
