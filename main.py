@@ -91,7 +91,7 @@ class MyAI(Alg3D):
             if zo == 0:
                 score += 100 * flag
             else:
-                score += -300 * flag
+                score -= 2000 * flag
 
             if zs == 2:
                 score += 200 * flag
@@ -107,7 +107,7 @@ class MyAI(Alg3D):
                 score += 10 * flag
 
             if (x == 0 or x == 3) and (y == 0 or y == 3):
-                score += -20000 * flag
+                score -= 2000 * flag
             elif x == 0 or x == 3:
                 score += 90 * flag
             elif x == 1 or x == 2:
@@ -131,7 +131,7 @@ class MyAI(Alg3D):
                     new_selfboard = self.simulate_move(board, nextmove, player) #相手が置いたときの盤面
                     score_self = self.evaluate_board(new_selfboard, player, nextmove, 2, round + 1)
                     new_opponentboard = self.simulate_move(board, nextmove, 3 - player) #相手が置いたときの盤面
-                    score_opponent = self.evaluate_board(new_opponentboard, 3 - player, nextmove, 3, round + 1)
+                    score_opponent = self.evaluate_board(new_opponentboard, 3 - player, nextmove, 2, round + 1)
                     if score_self > best_score:
                         best_score = score_self
                     if score_opponent > best_score:
