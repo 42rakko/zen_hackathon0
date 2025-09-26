@@ -137,6 +137,7 @@ class MyAI(Alg3D):
 
                     if (oppflag == 0 and score_opponent > 100000000):
                         return -300000000
+                
 
                     if score_self > best_score:
                         best_score = score_self
