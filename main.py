@@ -94,9 +94,9 @@ class MyAI(Alg3D):
                 score -= 2000 * flag
 
             if zs == 2:
-                score += 200 * flag
+                score += 500 * flag
             elif zs == 1:
-                score += 1 * flag
+                score += 100 * flag
             
             #列の向き
             if zt == 1:
@@ -136,7 +136,7 @@ class MyAI(Alg3D):
                         best_score = score_self
                     if score_opponent > best_score:
                         best_score = score_opponent
-                    score += best_score
+                score += best_score
 
 
                 
