@@ -139,7 +139,7 @@ class MyAI(Alg3D):
                         best_score = score_self
                     if score_opponent > best_score:
                         best_score = score_opponent
-                    if best_score >= 150000000:
+                    if best_score >= 50000000:
                         return best_score
                 score += best_score
                 
