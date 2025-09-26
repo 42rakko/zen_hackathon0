@@ -69,9 +69,9 @@ class MyAI(Alg3D):
         return new_board
 
     # 自分の盤面の場合スコアリングして返す
-    def evaluate_board(self, board, player, move, flag, round):
+    def evaluate_board(self, board, player, move, flag, round, oppflag):
         #そこに置いたら勝てる→あがり
-        if self.check_board_win(board, player) and round == 0:
+        if self.check_board_win(board, player) and (round == 0 or oppflag == 1):
             return 200000000
         x, y, z = move
         lines = self.check_line_counts(board, player, 3 - player, move)
@@ -117,10 +117,12 @@ class MyAI(Alg3D):
                 score += 50 * flag
 
             if z == 0:
-                score += 150 * flag
+                score += 100 * flag
             elif z == 1:
                 score += 50 * flag
 
+
+            #自分が置いて相手が上がるのを排除できてない
             #もう一手読む
             if round < 1:
                 nextmoves = self.find_valid_moves(board)
@@ -128,9 +130,9 @@ class MyAI(Alg3D):
                 best = None
                 for nextmove in nextmoves:
                     new_selfboard = self.simulate_move(board, nextmove, player) #相手が置いたときの盤面
-                    score_self = self.evaluate_board(new_selfboard, player, nextmove, 0.5, round + 1)
+                    score_self = self.evaluate_board(new_selfboard, player, nextmove, 0.5, round + 1, 1- oppflag)
                     new_opponentboard = self.simulate_move(board, nextmove, 3 - player) #相手が置いたときの盤面
-                    score_opponent = self.evaluate_board(new_opponentboard, 3 - player, nextmove, 0.5, round + 1)
+                    score_opponent = self.evaluate_board(new_opponentboard, 3 - player, nextmove, 0.5, round + 1, 1 - oppflag)
                     if score_self > best_score:
                         best_score = score_self
                     if score_opponent > best_score:
@@ -168,12 +170,12 @@ class MyAI(Alg3D):
         best = None
         for move in moves:
             new_selfboard = self.simulate_move(board, move, player) #自分が置いたときの盤面0            
-            score_self = self.evaluate_board(new_selfboard, player, move, 1, 0)
+            score_self = self.evaluate_board(new_selfboard, player, move, 1, 0, 0)
             if score_self >= 150000000:
                 x, y, z = move
                 return (x, y)
             new_opponentboard = self.simulate_move(board, move, 3 - player) #相手が置いたときの盤面
-            score_opponent = self.evaluate_board(new_opponentboard, 3 - player, move, 1, 0)
+            score_opponent = self.evaluate_board(new_opponentboard, 3 - player, move, 1, 0 , 1)
             if score_self >= 150000000:
                 x, y, z = move
                 return (x, y)            
