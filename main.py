@@ -79,6 +79,7 @@ class MyAI(Alg3D):
         #そこに置いたら勝てる→あがり
         if self.check_board_win(board, player) and (round == 0 or oppflag == 1):
             return 200000000
+    
         
 
         # もう一手読んで、そこに置いたら相手が即勝ちする手は避ける
