@@ -247,7 +247,7 @@ class MyAI(Alg3D):
                 x, y, z = move
                 return (x, y)
             new_opponentboard = self.simulate_move(board, move, 3 - player) #相手が置いたときの盤面
-            score_opponent = self.evaluate_board(new_opponentboard, 3 - player, move, 1, 0, 1)
+            score_opponent = self.evaluate_board(new_opponentboard, 3 - player, move, 2, 0, 1)
             if score_opponent >= 150000000:
                 x, y, z = move
                 return (x, y)            
