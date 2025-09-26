@@ -133,19 +133,17 @@ class MyAI(Alg3D):
                     new_selfboard = self.simulate_move(board, nextmove, player) #相手が置いたときの盤面
                     score_self = self.evaluate_board(new_selfboard, player, nextmove, 0.5, round + 1, oppflag)
                     new_opponentboard = self.simulate_move(board, nextmove, 3 - player) #相手が置いたときの盤面
-                    score_opponent = self.evaluate_board(new_opponentboard, 3 - player, nextmove, 1, round + 1, 1 - oppflag)
-                    
+                    score_opponent = self.evaluate_board(new_opponentboard, 3 - player, nextmove, 0.8, round + 1, 1 - oppflag)
+
+                    if score_self > 100000000 or score_opponent > 100000000:
+                        return -300000000
+
                     if score_self > best_score:
                         best_score = score_self
                     if score_opponent > best_score:
                         best_score = score_opponent
-                    if best_score >= 1000000:
-                        return 200000000
                 score += best_score
-                
-
-
-                
+                                
         return score
 
 
