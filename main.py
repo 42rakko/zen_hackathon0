@@ -138,7 +138,7 @@ class MyAI(Alg3D):
                 score += 10 * flag
 
             if (x == 0 or x == 3) and (y == 0 or y == 3):
-                score -= 3000 * flag
+                score -= 5000 * flag
             elif x == 0 or x == 3:
                 score += 510 * flag
             elif x == 1 or x == 2:
@@ -152,6 +152,10 @@ class MyAI(Alg3D):
                 score += 250  * flag
             elif z == 1:
                 score += 50 * flag
+            elif z == 2:
+                score += -50 * flag
+            elif z == 3:
+                score += -250 * flag
 
             #もう一手読む
             if round < 1:
