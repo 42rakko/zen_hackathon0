@@ -84,18 +84,18 @@ class MyAI(Alg3D):
             if zo == 0:
                 score += 100 * flag
             else:
-                score += -1000 * flag
+                score += 1 * flag
 
             if zs == 3:
-                score += 1 * flag
+                score += 110 * flag
             elif zs == 2:
                 score += 100 * flag
             elif zs == 1:
-                score += 200 * flag
+                score += 1 * flag
             
             #列の向き
             if zt == 1:
-                score += 500 * flag
+                score += 200 * flag
             elif zt == 2:
                 score += 50 * flag
             elif zt == 3:
@@ -104,11 +104,11 @@ class MyAI(Alg3D):
             if x == 0 or x == 3:
                 score += 10 * flag
             elif x == 1 or x == 2:
-                score += 510 * flag
+                score += 210 * flag
             if y == 0 or y == 3:
                 score += 10 * flag
             elif y == 1 or y == 2:
-                score += 510 * flag
+                score += 210 * flag
 
             if z == 0:
                 score += 100 * flag
